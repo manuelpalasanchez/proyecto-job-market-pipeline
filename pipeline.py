@@ -15,7 +15,8 @@ def run_pipeline():
     extractors = [
         AdzunaExtractor(
             keywords=["data engineer", "data analyst", "python", "sql", "machine learning"],
-            max_pages=5
+            max_pages=5,
+            max_days_old=120
         ),
     ]
 

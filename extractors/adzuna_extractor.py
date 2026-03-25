@@ -10,10 +10,12 @@ class AdzunaExtractor(BaseExtractor):
     """
     URL_BASE = "https://api.adzuna.com/v1/api/jobs"
 
-    def __init__(self, country: str = "es", keywords: list[str] = None, max_pages: int = 5):
+    def __init__(self, country: str = "es", keywords: list[str] = None, max_pages: int = 5, max_days_old: int = 120):
         self.country = country
         self.keywords = keywords or ["data engineer", "data analyst", "python", "sql"]
         self.max_pages = max_pages
+        self.max_days_old = max_days_old
+
         self.app_id = os.getenv("ADZUNA_APP_ID")
         self.app_key = os.getenv("ADZUNA_APP_KEY")
 
@@ -27,6 +29,7 @@ class AdzunaExtractor(BaseExtractor):
             "app_key": self.app_key,
             "what":keyword,
             "results_per_page": 50,
+            "max_days_old": self.max_days_old,
             "content-type": "application/json"   
         }
 
