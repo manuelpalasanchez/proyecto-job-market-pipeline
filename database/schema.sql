@@ -15,5 +15,7 @@ CREATE TABLE IF NOT EXISTS jobs (
     contract_time   VARCHAR(50),
     contract_type   VARCHAR(50),
     created_at      TIMESTAMP,
-    extracted_at    TIMESTAMP DEFAULT NOW()
+    extracted_at    TIMESTAMP DEFAULT NOW(),
+
+    CONSTRAINT uq_source_external_id UNIQUE (source, external_id)
 );
