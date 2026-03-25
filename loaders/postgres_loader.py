@@ -65,5 +65,5 @@ class PostgresLoader:
                 except Exception as e:
                     print(f"Error al insertar oferta {job.get('external_id')}: {e}")
             conn.commit()
-
         print(f"Ofertas insertadas: {insertados}, ofertas saltadas por duplicado: {saltados}")
+        return {"insertados": insertados, "saltados": saltados}
