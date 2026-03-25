@@ -1,6 +1,7 @@
 from extractors.adzuna_extractor import AdzunaExtractor
 from transformers.job_transformer import JobTransformer
 from loaders.postgres_loader import PostgresLoader
+from extractors.remotive_extractor import RemotiveExtractor
 
 def run_pipeline():
     print("Iniciando pipeline ETL de ofertas de empleo")
@@ -14,10 +15,13 @@ def run_pipeline():
 
     extractors = [
         AdzunaExtractor(
-            keywords=["data engineer", "data analyst", "python", "sql", "machine learning"],
+            keywords=["data engineer", "data analyst"],#, "python", "sql", "machine learning"],
             max_pages=5,
             max_days_old=120
         ),
+        RemotiveExtractor(
+        keywords=["data engineer", "data analyst", "python", "sql"]
+    ),
     ]
 
     for extractor in extractors:
