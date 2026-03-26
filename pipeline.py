@@ -16,16 +16,16 @@ def run_pipeline():
 
     extractors = [
         AdzunaExtractor(
-            keywords=["data engineer", "data analyst"],#, "python", "sql", "machine learning"],
+            keywords=["data engineer", "data analyst", "python", "sql", "machine learning"],
             max_pages=5,
             max_days_old=120
         ),
         RemotiveExtractor(
-        keywords=["data engineer", "data analyst", "python", "sql"]
+        keywords=["data engineer", "data analyst", "python", "sql", "machine learning"]
          ),
         TecnoempleoExtractor(
-            keywords=["data engineer", "data analyst", "python", "sql"],
-            max_pages=3
+            keywords=["data engineer", "data analyst", "python", "sql", "machine learning"],
+            max_pages=5
         )
     ]
 

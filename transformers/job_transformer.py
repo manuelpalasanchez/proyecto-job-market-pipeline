@@ -4,6 +4,25 @@ class JobTransformer:
     """
     Transforma y limpia los datos crudos de las extracciones al esquema normalizado para cargar en base de datos
     """
+    CONTRACT_TIME_MAP = {
+    "full_time": "Jornada completa",
+    "part_time": "Media jornada",
+    "full time": "Jornada completa",
+    "part time": "Media jornada",
+    "jornada completa": "Jornada completa",
+    "media jornada": "Media jornada",
+    }
+
+    CONTRACT_TYPE_MAP = {
+        "permanent": "Indefinido",
+        "contract": "Temporal",
+        "full_time": None, 
+        "contract": "Temporal",
+        "indefinido": "Indefinido",
+        "temporal": "Temporal",
+        "freelance/autónomo": "Freelance",
+        "prácticas": "Prácticas",
+    }
 
     def transform(self, raw_jobs: list[dict]) -> list[dict]:
         """
@@ -37,7 +56,7 @@ class JobTransformer:
             "external_id": self._clean_string(job.get("external_id")),
             "title": titulo,
             "company": empresa,
-            "location": self._clean_string(job.get("location")),
+            "location": None if job.get("location") == job.get("country") else self._clean_string(job.get("location")),
             "country": self._clean_string(job.get("country")),
             "salary_min": self._clean_num(job.get("salary_min")),
             "salary_max": self._clean_num(job.get("salary_max")),
@@ -45,8 +64,8 @@ class JobTransformer:
             "url": self._clean_string(job.get("url")),
             "tags": self._clean_string(job.get("tags")),
             "job_type": self._clean_string(job.get("job_type")),
-            "contract_time": self._clean_string(job.get("contract_time")),
-            "contract_type": self._clean_string(job.get("contract_type")),
+            "contract_time": self._normalize_field(job.get("contract_time"), self.CONTRACT_TIME_MAP),
+            "contract_type": self._normalize_field(job.get("contract_type"), self.CONTRACT_TYPE_MAP),
             "created_at": self._parse_date(job.get("created_at")),
         }
     
@@ -72,3 +91,8 @@ class JobTransformer:
             return datetime.fromisoformat(value.replace("Z", "+00:00"))
         except (ValueError, TypeError):
             return None
+        
+    def _normalize_field(self, value: str | None, mapping: dict) -> str | None:
+        if not value:
+            return None
+        return mapping.get(value.lower().strip(), value)
