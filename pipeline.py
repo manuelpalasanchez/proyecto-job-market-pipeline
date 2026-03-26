@@ -1,4 +1,5 @@
 from extractors.adzuna_extractor import AdzunaExtractor
+from extractors.tecnoempleo_extractor import TecnoempleoExtractor
 from transformers.job_transformer import JobTransformer
 from loaders.postgres_loader import PostgresLoader
 from extractors.remotive_extractor import RemotiveExtractor
@@ -21,7 +22,11 @@ def run_pipeline():
         ),
         RemotiveExtractor(
         keywords=["data engineer", "data analyst", "python", "sql"]
-    ),
+         ),
+        TecnoempleoExtractor(
+            keywords=["data engineer", "data analyst", "python", "sql"],
+            max_pages=3
+        )
     ]
 
     for extractor in extractors:
