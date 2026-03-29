@@ -17,6 +17,7 @@ class JobTransformer:
         "permanent": "Indefinido",
         "contract": "Temporal",
         "full_time": None, 
+        "part_time": None,
         "contract": "Temporal",
         "indefinido": "Indefinido",
         "temporal": "Temporal",
@@ -50,7 +51,6 @@ class JobTransformer:
         
         if not titulo or not empresa:
             return None
-        
         return {
             "source": job.get("source"),
             "external_id": self._clean_string(job.get("external_id")),
@@ -87,6 +87,8 @@ class JobTransformer:
     def _parse_date(self, value) -> datetime | None:
         if value is None:
             return None
+        if isinstance(value, datetime):
+            return value
         try:
             return datetime.fromisoformat(value.replace("Z", "+00:00"))
         except (ValueError, TypeError):

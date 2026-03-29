@@ -3,6 +3,7 @@ import time
 from bs4 import BeautifulSoup
 from extractors.base_extractor import BaseExtractor
 import re
+from datetime import datetime
 
 class TecnoempleoExtractor(BaseExtractor):
     """
@@ -76,12 +77,12 @@ class TecnoempleoExtractor(BaseExtractor):
             loc_tag = soup.select_one("a[title*='Ofertas de Empleo en']")
             loc = loc_tag.get_text(strip=True) if loc_tag else ""
 
-            fecha_tag = soup.select_one("i.fi-calendar")
+            fecha_tag = soup.find("i", class_="fi-calendar")
             created_at_raw = ""
             if fecha_tag and fecha_tag.parent:
-                        text = fecha_tag.parent.get_text(strip=True)
-                        match = re.search(r"\d{2}/\d{2}/\d{4}", text)
-                        created_at_raw = match.group(0) if match else ""
+                text = fecha_tag.parent.get_text(strip=True)
+                match = re.search(r"\d{2}/\d{2}/\d{4}", text)
+                created_at_raw = match.group(0) if match else ""
             contract_type = ""
             contract_time = ""
             salary_raw = ""
@@ -110,7 +111,6 @@ class TecnoempleoExtractor(BaseExtractor):
                 btn = salary_tag.select_one("a.btn")
                 if btn:
                     salary_raw = btn.get_text(strip=True)
-
             return {
                 "location": loc,
                 "description": description,
@@ -168,7 +168,6 @@ class TecnoempleoExtractor(BaseExtractor):
         """
         Convierte fecha 'dd/mm/yyyy' a objeto datetime.
         """
-        from datetime import datetime
         if not date_raw:
             return None
         try:
@@ -210,7 +209,6 @@ class TecnoempleoExtractor(BaseExtractor):
 
                     salary_min, salary_max = self._parse_salary(detail.pop("salary_raw", ""))
                     created_at = self._parse_date(detail.pop("created_at_raw", ""))
-
                     full_job = {
                         **job,
                         **detail,
@@ -220,7 +218,6 @@ class TecnoempleoExtractor(BaseExtractor):
                         "contract_time": detail.get("contract_time"),
                         "contract_type": detail.get("contract_type"),
                     }
-
                     all_jobs.append(full_job)
 
                 print(f"  Página {page}: {len(basic_jobs)} procesadas")

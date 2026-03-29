@@ -3,6 +3,7 @@ from extractors.tecnoempleo_extractor import TecnoempleoExtractor
 from transformers.job_transformer import JobTransformer
 from loaders.postgres_loader import PostgresLoader
 from extractors.remotive_extractor import RemotiveExtractor
+from utils.geocoder import geocode_missing_locations
 
 def run_pipeline():
     print("Iniciando pipeline ETL de ofertas de empleo")
@@ -41,6 +42,9 @@ def run_pipeline():
         print(f"Fuente: {source} - Insertados: {result['insertados']} - Saltados: {result['saltados']}")
     
     print(f"Total insertados: {total_insertados} - Total saltados: {total_saltados}")
+    print("Geocodificando ubicaciones nuevas")
+    geocode_missing_locations(loader.engine)
+    print("Pipeline completado")
 
 if __name__ == "__main__":
     run_pipeline()
