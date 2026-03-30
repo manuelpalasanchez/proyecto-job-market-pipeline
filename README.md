@@ -12,11 +12,11 @@ La extracción de las distintas fuentes se realiza tanto por consultas a su API 
 [Adzuna API] [Remotive API] + [Tecnoempleo scraping]
 
 [Extracción - requests / BeautifulSoup]
-                      ↓
+                      
 [Transformación - Pandas / normalización de variables] + [Geocodificación de ubicaciones -Geopy-]
-                      ↓
+                      
 [Carga en BD PostgreSQL - Docker / acceso desde DBeaver]
-                      ↓
+                      
 [Dashboard - Streamlit + Plotly]
 
 
