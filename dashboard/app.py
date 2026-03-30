@@ -56,7 +56,7 @@ with st.sidebar:
         "Rango de fechas",
         value=(fecha_hoy - pd.Timedelta(days=60), fecha_hoy),
         min_value=fecha_min,
-        max_value=fecha_max
+        max_value=fecha_hoy
     )
 
     ciudades = ["Todas"] + sorted(df["location"].dropna().unique().tolist())

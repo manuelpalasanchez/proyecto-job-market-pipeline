@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 .venv/
 test_*
+create_tables.py
