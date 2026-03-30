@@ -24,10 +24,16 @@ st.markdown("""
 
 @st.cache_resource
 def get_engine():
-    db_url = (
-        f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
-        f"@{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DB')}"
-    )
+    if os.getenv("USE_NEON", "false").lower() == "true":
+        db_url = (
+            f"postgresql://{os.getenv('NEON_USER')}:{os.getenv('NEON_PASSWORD')}"
+            f"@{os.getenv('NEON_HOST')}:{os.getenv('NEON_PORT')}/{os.getenv('NEON_DB')}?sslmode=require"
+        )
+    else:
+        db_url = (
+            f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
+            f"@{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DB')}"
+        )
     return create_engine(db_url)
 
 @st.cache_data(ttl=3600)
