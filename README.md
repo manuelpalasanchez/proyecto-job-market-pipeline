@@ -5,6 +5,8 @@ La extracción de las distintas fuentes se realiza tanto por consultas a su API 
 
 ![Dashboard preview](assets/dashboard_vista.png)
 
+**[Ver dashboard en producción](https://proyecto-job-market-pipeline-manuelpalasanchez.streamlit.app/)**
+
 ---
 
 ## Arquitectura utilizada
